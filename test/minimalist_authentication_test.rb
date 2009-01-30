@@ -3,10 +3,13 @@ require File.dirname(__FILE__) + '/test_helper'
 class MinimalistAuthenticationTest < ActiveSupport::TestCase
   load_schema
   
-  class User < ActiveRecord::Base
+  test "should return active user" do
+    user = Factory(:user)
+    assert_equal([user], User.active)
   end
   
-  test "should be ready to test" do
-    assert_equal [], User.all
+  test "should authenticate user" do
+    user = Factory(:user)
+    assert_equal(user, User.authenticate(user.email, user.crypted_password))
   end
 end

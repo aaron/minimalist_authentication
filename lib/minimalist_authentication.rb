@@ -1,1 +1,2 @@
 # MinimalistAuthentication
+require 'minimalist/authentication'

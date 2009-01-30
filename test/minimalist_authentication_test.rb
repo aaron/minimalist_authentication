@@ -1,8 +1,12 @@
-require 'test_helper'
+require File.dirname(__FILE__) + '/test_helper'
 
 class MinimalistAuthenticationTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  test "the truth" do
-    assert true
+  load_schema
+  
+  class User < ActiveRecord::Base
+  end
+  
+  test "should be ready to test" do
+    assert_equal [], User.all
   end
 end

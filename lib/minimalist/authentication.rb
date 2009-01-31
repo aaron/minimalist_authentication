@@ -6,7 +6,11 @@ module Minimalist
         include InstanceMethods
         
         attr_accessor :password
+        attr_protected :crypted_password, :salt
         before_save :encrypt_password
+        
+        validates_presence_of :email
+        validates_uniqueness_of :email
         
         named_scope :active, :conditions => {:active => true}
       end
@@ -15,15 +19,11 @@ module Minimalist
     module ClassMethods
       def authenticate(email, password)
         return if email.blank? || password.blank?
-        if (user = active.first(:conditions => {:email => email, :crypted_password => password}))
-          update_all("last_loggged_in_at='#{Time.now.to_s(:db)}'", "id=#{user.id}") # use update_all to avoid updated_on trigger
-        end
+        user = active.first(:conditions => {:email => email})
+        return unless user && user.authenticated?(password)
+        update_all("last_loggged_in_at='#{Time.now.to_s(:db)}'", "id=#{user.id}") # use update_all to avoid updated_on trigger
         return user
       end
-      
-      #######
-      private
-      #######
       
       def secure_digest(*args)
         Digest::SHA1.hexdigest(args.flatten.join('--'))
@@ -36,7 +36,17 @@ module Minimalist
     
     module InstanceMethods
       
+      def authenticated?(password)
+        crypted_password == encrypt(password)
+      end
+      
+      #######
       private
+      #######
+      
+      def encrypt(password)
+        self.class.secure_digest(password, salt)
+      end
       
       def encrypt_password
         return if password.blank?

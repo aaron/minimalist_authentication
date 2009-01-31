@@ -21,7 +21,7 @@ module Minimalist
         return if email.blank? || password.blank?
         user = active.first(:conditions => {:email => email})
         return unless user && user.authenticated?(password)
-        update_all("last_loggged_in_at='#{Time.now.to_s(:db)}'", "id=#{user.id}") # use update_all to avoid updated_on trigger
+        update_all("last_logged_in_at='#{Time.now.to_s(:db)}'", "id=#{user.id}") # use update_all to avoid updated_on trigger
         return user
       end
       

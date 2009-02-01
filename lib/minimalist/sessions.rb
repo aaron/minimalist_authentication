@@ -1,7 +1,6 @@
 module Minimalist
   module Sessions
     def self.included( base )
-      base.extend(ClassMethods)
       base.class_eval do
         include InstanceMethods
         append_view_path File.join(File.dirname(__FILE__), '..', '/app/views')

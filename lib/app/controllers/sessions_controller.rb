@@ -6,17 +6,20 @@ class SessionsController < ApplicationController
   
   def create
     if user = User.authenticate(params[:email], params[:password])
+      user.logged_in
       session[:user_id] = user.id
       flash[:notice] = "Logged in successfully"
-      redirect_to stored_or_default_page(person)
+      redirect_back_or_default('/')
       return
+    else
+      flash[:error] = 'Login Failed'
+      render :action => 'new'
     end
-    flash[:error] = 'Login Failed'
-    render :action => 'new'
   end
   
   def destroy
     reset_session
-    redirect_to :action => 'new'
+    flash[:notice] = "You have been logged out."
+    redirect_to '/'
   end
 end

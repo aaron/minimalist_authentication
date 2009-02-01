@@ -1,5 +1,7 @@
 # MinimalistAuthentication
 require 'minimalist/authentication'
+require 'app/controllers/application_controller'
+require 'app/controllers/sessions_controller'
 
 %w{ controllers }.each do |dir|
   path = File.join(File.dirname(__FILE__), 'app', dir)

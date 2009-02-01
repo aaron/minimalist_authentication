@@ -1,5 +1,7 @@
 module Minimalist
   module Authentication
+    GUEST_USER_EMAIL = 'guest'
+    
     def self.included( base )
       base.extend(ClassMethods)
       base.class_eval do
@@ -21,7 +23,6 @@ module Minimalist
         return if email.blank? || password.blank?
         user = active.first(:conditions => {:email => email})
         return unless user && user.authenticated?(password)
-        update_all("last_logged_in_at='#{Time.now.to_s(:db)}'", "id=#{user.id}") # use update_all to avoid updated_on trigger
         return user
       end
       
@@ -32,12 +33,24 @@ module Minimalist
       def make_token
         secure_digest(Time.now, (1..10).map{ rand.to_s })
       end
+      
+      def guest
+        User.new(:email => GUEST_USER_EMAIL)
+      end
     end
     
     module InstanceMethods
       
       def authenticated?(password)
         crypted_password == encrypt(password)
+      end
+      
+      def logged_in
+        self.class.update_all("last_logged_in_at='#{Time.now.to_s(:db)}'", "id=#{self.id}") # use update_all to avoid updated_on trigger
+      end
+      
+      def is_guest?
+        email == GUEST_USER_EMAIL
       end
       
       #######

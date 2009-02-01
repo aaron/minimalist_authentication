@@ -47,4 +47,15 @@ class MinimalistAuthenticationTest < ActiveSupport::TestCase
     assert_not_nil(user.crypted_password)
     assert(user.authenticated?('testing'))
   end
+  
+  test "should update last_logged_in_at without updating updated_at timestamp" do
+    user = Factory(:user, :updated_at => 1.day.ago)
+    updated_at = user.updated_at
+    user.logged_in
+    assert(user.updated_at == updated_at)
+  end
+  
+  test "guest should be guest" do
+    assert(User.guest.is_guest?)
+  end
 end

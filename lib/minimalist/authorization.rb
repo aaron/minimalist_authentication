@@ -14,14 +14,14 @@ module Minimalist
       #######
 
       def current_user
-        @current_user ||= (login_from_session || User.guest)
+        @current_user ||= (get_user_from_session || User.guest)
       end
 
-      def login_from_session
+      def get_user_from_session
         User.find_by_id(session[:user_id]) if session[:user_id]
       end
 
-      def login_required
+      def authorization_required
         authorized? || access_denied
       end
 

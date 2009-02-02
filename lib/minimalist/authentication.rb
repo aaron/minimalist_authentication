@@ -11,8 +11,9 @@ module Minimalist
         attr_protected :crypted_password, :salt
         before_save :encrypt_password
         
-        validates_presence_of :email
-        validates_uniqueness_of :email
+        validates_presence_of     :email
+        validates_uniqueness_of   :email
+        validates_format_of       :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
         validates_presence_of     :password,                   :if => :active?
         validates_presence_of     :password_confirmation,      :if => :active?
         validates_confirmation_of :password,                   :if => :active?

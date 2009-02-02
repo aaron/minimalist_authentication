@@ -1,8 +1,9 @@
 MinimalistAuthentication
 ========================
 
-A Rails authentication plugin that takes a minimalist approach.
+A Rails authentication plugin that takes a minimalist approach. It is designed to be simple to understand, use, and modify for your application.
 
+This plugin was largely inspired by the restful-authentication plugin (http://github.com/technoweenie/restful-authentication/tree/master). I selected the essential methods for password based authentication, reorganized them, trimmed them down when possible, added a couple of features, and resisted the urge to start adding more.
 
 Example
 =======

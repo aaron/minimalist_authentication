@@ -15,11 +15,11 @@ module Minimalist
         if user = User.authenticate(params[:email], params[:password])
           user.logged_in
           session[:user_id] = user.id
-          flash[:notice] = "Logged in successfully"
+          flash[:notice] = "You have logged in successfully."
           redirect_back_or_default('/')
           return
         else
-          flash[:error] = 'Login Failed'
+          flash[:error] = "Couldn't log you in as '#{params[:email]}'"
           render :action => 'new'
         end
       end

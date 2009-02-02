@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/test_helper'
 
-class MinimalistAuthenticationTest < ActiveSupport::TestCase
+class AuthenticationTest < ActiveSupport::TestCase
   load_schema
   
   test "should not be able to set crypted_password through mass assignment" do

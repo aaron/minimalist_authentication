@@ -14,10 +14,10 @@ module Minimalist
         validates_presence_of     :email
         validates_uniqueness_of   :email
         validates_format_of       :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
-        validates_presence_of     :password,                   :if => :active?
-        validates_presence_of     :password_confirmation,      :if => :active?
-        validates_confirmation_of :password,                   :if => :active?
-        validates_length_of       :password, :within => 6..40, :if => :active?
+        validates_presence_of     :password,                   :if => :password_required?
+        validates_presence_of     :password_confirmation,      :if => :password_required?
+        validates_confirmation_of :password,                   :if => :password_required?
+        validates_length_of       :password, :within => 6..40, :if => :password_required?
         
         named_scope :active, :conditions => {:active => true}
       end
@@ -65,6 +65,10 @@ module Minimalist
       #######
       private
       #######
+      
+      def password_required?
+        active? && (crypted_password.blank? || !password.blank?)
+      end
       
       def encrypt(password)
         self.class.secure_digest(password, salt)

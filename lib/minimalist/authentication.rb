@@ -13,6 +13,10 @@ module Minimalist
         
         validates_presence_of :email
         validates_uniqueness_of :email
+        validates_presence_of     :password,                   :if => :active?
+        validates_presence_of     :password_confirmation,      :if => :active?
+        validates_confirmation_of :password,                   :if => :active?
+        validates_length_of       :password, :within => 6..40, :if => :active?
         
         named_scope :active, :conditions => {:active => true}
       end
@@ -40,6 +44,10 @@ module Minimalist
     end
     
     module InstanceMethods
+      
+      def active?
+        active
+      end
       
       def authenticated?(password)
         crypted_password == encrypt(password)

@@ -1,7 +1,12 @@
 require File.dirname(__FILE__) + '/test_helper'
+require 'action_controller'
 require 'action_controller/test_process'
+ActionController::Routing::Routes.draw do |map|
+  map.resource :session
+end
 
 class ApplicationController < ActionController::Base
+  include Minimalist::Authorization
 end
 
 class SessionsController < ApplicationController

@@ -3,8 +3,7 @@ module Minimalist
     def self.included( base )
       base.class_eval do
         include InstanceMethods
-        
-        helper_method :current_user
+        helper_method :current_user, :logged_in?, :authorized?
       end
     end
     

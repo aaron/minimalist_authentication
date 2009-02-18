@@ -27,7 +27,7 @@ module Minimalist
       def destroy
         reset_session
         flash[:notice] = "You have been logged out."
-        redirect_to '/'
+        redirect_to logout_redirect_to
       end
       
       #######
@@ -35,6 +35,10 @@ module Minimalist
       #######
       
       def login_redirect_to(user)
+        '/'
+      end
+      
+      def logout_redirect_to
         '/'
       end
     end

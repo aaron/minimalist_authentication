@@ -58,4 +58,20 @@ class AuthenticationTest < ActiveSupport::TestCase
   test "guest should be guest" do
     assert(User.guest.is_guest?)
   end
+  
+  test "should allow inactive user to pass validation without an email or password" do
+    assert(User.new.valid?)
+  end
+  
+  test "should fail validation for active user without email" do
+    user = User.new(:active => true)
+    assert_equal(false, user.valid?)
+    assert(user.errors.on(:email))
+  end
+  
+  test "should fail validation for active user without password" do
+    user = User.new(:active => true)
+    assert_equal(false, user.valid?)
+    assert(user.errors.on(:password))
+  end
 end

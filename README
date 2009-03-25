@@ -5,14 +5,41 @@ A Rails authentication plugin that takes a minimalist approach. It is designed t
 
 This plugin was largely inspired by the restful-authentication plugin (http://github.com/technoweenie/restful-authentication/tree/master). I selected the essential methods for password based authentication, reorganized them, trimmed them down when possible, added a couple of features, and resisted the urge to start adding more.
 
+
 Installation
 ============
 git clone git://github.com/aaron/minimalist_authentication.git minimalist_authentication
 
+ruby script/generate scaffold user active:boolean email:string crypted_password:string salt:string last_logged_in_at:datetime
+
+
 Example
 =======
 
-Example goes here.
+app/models/user.rb
+class User < ActiveRecord::Base
+  include Minimalist::Authentication
+end
+
+app/controllers/application.rb
+class ApplicationController < ActionController::Base
+  include Minimalist::Authorization
+  
+  # Lock down everything by default
+  # use skip_before_filter to open up sepecific actions
+  prepend_before_filter :authorization_required
+end
+
+app/controllers/sessions_controller.rb
+class SessionsController < ApplicationController
+  include Minimalist::Sessions
+  skip_before_filter :authorization_required, :only => [:new, :create]
+end
+
+test/test_helper.rb
+class Test::Unit::TestCase
+  include Minimalist::TestHelper
+end
 
 
 Copyright (c) 2009 Aaron Baldwin, released under the MIT license

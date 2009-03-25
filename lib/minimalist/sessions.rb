@@ -16,7 +16,7 @@ module Minimalist
           user.logged_in
           session[:user_id] = user.id
           flash[:notice] = "You have logged in successfully."
-          redirect_back_or_default('/')
+          redirect_back_or_default(login_redirect_to(user))
           return
         else
           flash[:error] = "Couldn't log you in as '#{params[:email]}'"
@@ -27,7 +27,19 @@ module Minimalist
       def destroy
         reset_session
         flash[:notice] = "You have been logged out."
-        redirect_to '/'
+        redirect_to logout_redirect_to
+      end
+      
+      #######
+      private
+      #######
+      
+      def login_redirect_to(user)
+        '/'
+      end
+      
+      def logout_redirect_to
+        '/'
       end
     end
   end

@@ -2,16 +2,21 @@ require File.dirname(__FILE__) + '/test_helper'
 require 'action_controller/test_process'
 
 class ApplicationController < ActionController::Base
+  include Minimalist::Authorization
 end
 
 class SessionsController < ApplicationController
   include Minimalist::Sessions
 end
 
+ActionController::Routing::Routes.draw do |map|
+  map.resource :session, :only => [:new, :create, :destroy]
+end
+
 class SessionsControllerTest < ActionController::TestCase
   load_schema
   
-  test "should get new " do
+  test "should get new" do
     get :new
     assert_response :success
   end

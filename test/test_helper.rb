@@ -1,12 +1,10 @@
 require 'test/unit'
 require 'rubygems'
+require 'action_controller'
+require 'active_record'
 require 'active_support'
 require 'active_support/test_case'
-
-ENV['RAILS_ENV'] = 'test'
-ENV['RAILS_ROOT'] ||= File.dirname(__FILE__) + '/../../../..'
-require File.expand_path(File.join(ENV['RAILS_ROOT'], 'config/environment.rb'))
-
+require File.dirname(__FILE__) + '/../init'
 require File.dirname(__FILE__) + '/factories'
 
 class Test::Unit::TestCase

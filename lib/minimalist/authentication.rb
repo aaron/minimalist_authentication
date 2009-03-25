@@ -1,3 +1,5 @@
+require 'digest'
+
 module Minimalist
   module Authentication
     GUEST_USER_EMAIL = 'guest'

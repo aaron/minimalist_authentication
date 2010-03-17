@@ -1,4 +1,4 @@
-require 'digest'
+require 'digest/sha1'
 
 module Minimalist
   module Authentication

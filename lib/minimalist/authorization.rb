@@ -42,8 +42,7 @@ module Minimalist
       end
 
       def redirect_back_or_default(default)
-        redirect_to(session[:return_to] || default)
-        session[:return_to] = nil
+        redirect_to(session.delete(:return_to) || default)
       end
     end
   end

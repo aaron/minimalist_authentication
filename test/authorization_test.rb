@@ -68,6 +68,14 @@ class AuthorizationTest < ActiveSupport::TestCase
   def new_session_path; '/session/new'; end
   
   def request
-    Class.new {def request_uri; 'http://www.example.com'; end}.new
+    (Class.new do
+      def method
+        :get
+      end
+      
+      def request_uri
+        'http://www.example.com'
+      end
+    end).new
   end
 end

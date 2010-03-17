@@ -11,7 +11,7 @@ module Minimalist
       def show
         redirect_to new_session_path
       end
-          
+      
       def new
       end
 
@@ -29,7 +29,7 @@ module Minimalist
       end
 
       def destroy
-        reset_session
+        session[:user_id] = nil
         flash[:notice] = "You have been logged out."
         redirect_to logout_redirect_to
       end
